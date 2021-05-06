@@ -1,0 +1,7 @@
+# WebStorm configuration files
+.idea
+# Node modules
+node_modules
+# Node Modules inside folders
+*/node_modules
+*/*/node_modules

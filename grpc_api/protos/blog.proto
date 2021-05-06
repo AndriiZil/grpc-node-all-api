@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package blog;
+
+
+service BlogService {
+  // All API
+
+  rpc ListBlogs (ListBlogRequest) returns (stream ListBlogResponse) {};
+
+}
+
+message Blog {
+  string id = 1;
+  string author = 2;
+  string title = 3;
+  string content = 4;
+}
+
+message ListBlogRequest { }
+
+message ListBlogResponse {
+  Blog blog = 1;
+}
