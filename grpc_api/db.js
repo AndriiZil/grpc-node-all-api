@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const { MONGO_URI } = require('./config');
 
 async function connectDb() {
   try {
-    await mongoose.connect(`mongodb+srv://user:12345@cluster0.zxmde.mongodb.net/grpc?retryWrites=true&w=majority`, {
+    await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false,
     });
     console.log('DB Connected...');
   } catch (err) {

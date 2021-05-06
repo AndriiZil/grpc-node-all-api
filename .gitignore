@@ -5,3 +5,7 @@ node_modules
 # Node Modules inside folders
 */node_modules
 */*/node_modules
+# ENV Variables
+.env
+*/.env
+*/*/.env

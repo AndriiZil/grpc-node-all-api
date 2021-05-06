@@ -1,6 +1,15 @@
 const path = require('path');
 const protoLoader = require('@grpc/proto-loader');
 const { loadPackageDefinition, credentials } = require('grpc');
+const {
+  callListBlogs,
+  callCreateBlog,
+  callReadBlog,
+  callUpdateBlog,
+  callDeleteBlog
+} = require('../services/client');
+
+const { HOST_URL } = require('../config');
 
 const blogProtoPath = path.join(__dirname, '..', 'protos', 'blog.proto');
 const blogProtoDefinition = protoLoader.loadSync(blogProtoPath, {
@@ -12,27 +21,18 @@ const blogProtoDefinition = protoLoader.loadSync(blogProtoPath, {
 });
 
 const { BlogService } = loadPackageDefinition(blogProtoDefinition).blog;
-const client = new BlogService('127.0.0.1:50051', credentials.createInsecure());
-
-async function callListBlogs() {
-  const request = {};
-  const call = await client.listBlogs(request, () => {});
-
-  call.on('data', response => {
-    console.log(`Client Streaming Response ${JSON.stringify(response.blog)}`);
-  });
-
-  call.on('error', error => {
-    console.error(error);
-  });
-
-  call.on('end', () => {
-    console.log('Client End!');
-  });
-}
+const client = new BlogService(HOST_URL, credentials.createInsecure());
 
 async function main() {
-  await callListBlogs();
+  try {
+    await callListBlogs(client);
+    // await callCreateBlog(client);
+    // await callReadBlog(client);
+    // await callUpdateBlog(client);
+    // await callDeleteBlog(client);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 main().catch(console.error);
